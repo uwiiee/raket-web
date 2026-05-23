@@ -13,9 +13,7 @@ import {
   Clock,
   X,
   ChevronRight,
-  Heart,
   MoreHorizontal,
-  Bookmark,
   Menu,
 } from "lucide-react";
 import "./RaketWebVersion.css";
