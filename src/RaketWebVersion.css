@@ -43,22 +43,6 @@ button {
   z-index: 10;
 }
 
-.topLogo,
-.brandRow {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.topLogo h1,
-.brandRow h1 {
-  margin: 0;
-  color: var(--sage);
-  font-size: 34px;
-  font-style: italic;
-  font-weight: 800;
-}
-
 .topSearch {
   height: 50px;
   border: 1px solid var(--line);
@@ -81,12 +65,20 @@ button {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 26px;
+  gap: 18px;
 }
 
 .topIcons button {
   border: none;
   background: transparent;
+  color: #333;
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.topIconActive {
+  color: var(--sage-dark) !important;
+  background: #eef3ed !important;
 }
 
 .miniProfile {
@@ -120,6 +112,20 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.brandRow h1 {
+  margin: 0;
+  color: var(--sage);
+  font-size: 34px;
+  font-style: italic;
+  font-weight: 800;
 }
 
 .sideNav {
@@ -181,12 +187,58 @@ button {
   margin: 0 auto;
 }
 
+.composer {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.composerAvatar {
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: var(--sage);
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.composerInput {
+  flex: 1;
+  height: 46px;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  background: #f8f8f8;
+  text-align: left;
+  padding: 0 16px;
+  color: #777;
+}
+
+.composerPost {
+  border: none;
+  background: var(--sage);
+  color: white;
+  border-radius: 999px;
+  padding: 0 18px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .feedTabs,
 .searchTabs,
 .createTabs {
   display: flex;
   border-bottom: 2px solid var(--line);
   margin-bottom: 22px;
+  background: white;
 }
 
 .feedTabs button,
@@ -201,11 +253,9 @@ button {
   font-weight: bold;
 }
 
-.feedTabs .tabActive,
-.searchTabs .tabActive,
-.createTabs .tabActive {
-  color: var(--sage-dark);
-  border-bottom: 3px solid var(--sage);
+.tabActive {
+  color: var(--sage-dark) !important;
+  border-bottom: 3px solid var(--sage) !important;
 }
 
 .feedCard {
@@ -221,6 +271,12 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.userButton {
+  border: none;
+  background: transparent;
+  text-align: left;
 }
 
 .postUser {
@@ -255,6 +311,17 @@ button {
   font-size: 14px;
 }
 
+.postHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.moreBtn {
+  border: none;
+  background: transparent;
+}
+
 .statusPill {
   background: #e8f2ff;
   color: #1f67d2;
@@ -262,6 +329,15 @@ button {
   border-radius: 999px;
   font-weight: bold;
   font-size: 13px;
+}
+
+.postCaption {
+  padding: 0 20px 12px;
+  font-size: 16px;
+}
+
+.postCaption p {
+  margin: 0;
 }
 
 .postDetails {
@@ -296,6 +372,14 @@ button {
   font-weight: bold !important;
 }
 
+.socialCounts {
+  padding: 0 20px 12px;
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 13px;
+}
+
 .postActions {
   border-top: 1px solid #eee;
   display: grid;
@@ -317,6 +401,64 @@ button {
 
 .postActions button:last-child {
   border-right: none;
+}
+
+.commentsBox {
+  border-top: 1px solid #eee;
+  padding: 14px 18px;
+  background: #fafafa;
+}
+
+.commentItem {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.commentAvatar {
+  width: 34px;
+  height: 34px;
+  background: var(--sage);
+  color: white;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.commentItem p {
+  margin: 0;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 14px;
+}
+
+.commentForm {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.commentForm input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 12px 16px;
+  outline: none;
+}
+
+.commentForm button {
+  border: none;
+  background: var(--sage);
+  color: white;
+  border-radius: 999px;
+  padding: 0 18px;
+}
+
+.noComment {
+  color: #777;
+  font-size: 14px;
 }
 
 .rightPanel {
@@ -443,50 +585,13 @@ button {
   gap: 10px;
 }
 
-.trendRow span {
+.trendRow span,
+.trendRow button {
   background: #e5e5e5;
   padding: 9px 16px;
   border-radius: 999px;
-}
-
-.activityItem {
-  display: flex;
-  gap: 12px;
-  border-bottom: 1px solid #eee;
-  padding: 12px 0;
-}
-
-.activityItem div {
-  width: 36px;
-  height: 36px;
-  background: var(--sage);
-  color: white;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-weight: bold;
-}
-
-.activityItem p {
-  margin: 0;
-}
-
-.activityItem small {
-  display: block;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.activityItem span,
-.activityLink {
-  color: var(--sage-dark);
-  font-weight: bold;
-}
-
-.activityLink {
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
+  border: none;
+  color: #333;
 }
 
 .searchPage,
@@ -537,12 +642,16 @@ button {
   font-weight: bold;
 }
 
-.recentList div {
+.recentList button {
+  width: 100%;
   display: grid;
   grid-template-columns: 30px 1fr 30px;
   align-items: center;
   padding: 16px 0;
   font-size: 20px;
+  border: none;
+  background: transparent;
+  text-align: left;
 }
 
 .profileHero {
@@ -639,10 +748,6 @@ button {
   color: #777;
 }
 
-.createPage h1 {
-  margin-top: 0;
-}
-
 .formCard {
   display: flex;
   flex-direction: column;
@@ -699,6 +804,157 @@ button {
   margin-top: 20px;
 }
 
+.messagesPage {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 18px;
+  height: calc(100vh - 130px);
+}
+
+.chatList,
+.chatWindow {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.chatList {
+  padding: 18px;
+}
+
+.chatPerson {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 14px;
+  border-radius: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+}
+
+.chatPerson span {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--sage);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+}
+
+.activeChat {
+  background: #eef3ed;
+}
+
+.chatWindow {
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeader {
+  padding: 18px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chatHeader h3 {
+  margin: 0;
+}
+
+.chatHeader p {
+  margin: 3px 0 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.chatBack {
+  border: none;
+  background: transparent;
+  font-size: 22px;
+}
+
+.chatBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #f8f8f8;
+}
+
+.chatBubble {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 18px;
+}
+
+.sentBubble {
+  align-self: flex-end;
+  background: var(--sage);
+  color: white;
+}
+
+.applicationCard {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  max-width: 340px;
+  border: 1px solid #ddd;
+  align-self: flex-end;
+}
+
+.applicationCard h4 {
+  margin-top: 0;
+}
+
+.applicationCard button {
+  margin-top: 10px;
+  border: none;
+  background: var(--sage);
+  color: white;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.chatInput {
+  border-top: 1px solid #eee;
+  padding: 14px;
+  display: flex;
+  gap: 10px;
+}
+
+.chatInput input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 14px;
+  outline: none;
+}
+
+.chatInput button {
+  width: 50px;
+  border: none;
+  background: var(--sage);
+  color: white;
+  border-radius: 50%;
+}
+
+.emptyChat {
+  color: #777;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.bottomNav {
+  display: none;
+}
+
 @media (max-width: 1200px) {
   .layout {
     grid-template-columns: 220px 1fr;
@@ -709,7 +965,7 @@ button {
   }
 
   .topbar {
-    grid-template-columns: 220px 1fr 250px;
+    grid-template-columns: 1fr 250px;
   }
 
   .miniProfile b {
@@ -718,101 +974,232 @@ button {
 }
 
 @media (max-width: 850px) {
+  body {
+    overflow-x: hidden;
+  }
+
   .topbar {
-    grid-template-columns: 1fr;
     height: auto;
-    padding: 18px;
+    padding: 12px;
+    display: block;
   }
 
   .topSearch {
-    order: 3;
-  }
-
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    display: none;
+    width: 100%;
+    height: 46px;
   }
 
   .topIcons {
-    justify-content: flex-start;
+    display: none;
   }
 
-  @media (max-width: 850px) {
-    .topbar {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      height: auto;
-      padding: 14px;
-      gap: 14px;
-    }
+  .layout {
+    display: block;
+  }
 
-    .topSearch {
-      width: 100%;
-      order: 2;
-    }
+  .sidebar,
+  .rightPanel {
+    display: none;
+  }
 
-    .topIcons {
-      justify-content: space-between;
-      gap: 12px;
-    }
+  .mainArea {
+    width: 100%;
+    padding: 12px 12px 90px;
+  }
 
-    .miniProfile b {
-      display: none;
-    }
+  .centerFeed,
+  .searchPage,
+  .createPage,
+  .profilePage,
+  .placeholderPage {
+    max-width: 100%;
+    width: 100%;
+  }
 
-    .layout {
-      display: block;
-    }
+  .searchPage,
+  .createPage,
+  .profilePage,
+  .placeholderPage {
+    padding: 16px;
+    border-radius: 14px;
+  }
 
-    .sidebar,
-    .rightPanel {
-      display: none;
-    }
+  .composer {
+    padding: 12px;
+  }
 
-    .mainArea {
-      padding: 14px;
-    }
+  .composerInput {
+    font-size: 13px;
+  }
 
-    .centerFeed,
-    .searchPage,
-    .createPage,
-    .profilePage,
-    .placeholderPage {
-      max-width: 100%;
-      width: 100%;
-      padding: 16px;
-    }
+  .composerPost {
+    padding: 0 12px;
+    font-size: 13px;
+  }
 
-    .postHeader,
-    .postUser {
-      align-items: flex-start;
-    }
+  .feedTabs,
+  .searchTabs,
+  .createTabs {
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
 
-    .postHeader {
-      flex-direction: column;
-      gap: 12px;
-    }
+  .feedTabs button,
+  .searchTabs button,
+  .createTabs button {
+    font-size: 13px;
+    padding: 12px 6px;
+  }
 
-    .postDetails {
-      grid-template-columns: 1fr;
-      gap: 6px;
-    }
+  .postHeader {
+    padding: 14px;
+  }
 
-    .postActions {
-      grid-template-columns: 1fr;
-    }
+  .postUser h3 {
+    font-size: 15px;
+  }
 
-    .postActions button {
-      border-right: none;
-      border-bottom: 1px solid #eee;
-    }
+  .postUser p {
+    font-size: 12px;
+  }
 
-    .scheduleDays {
-      grid-template-columns: repeat(4, 1fr);
-    }
+  .postHeaderRight {
+    align-self: flex-start;
+  }
+
+  .postDetails {
+    grid-template-columns: 1fr;
+    margin: 0 14px;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .postActions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .postActions button {
+    height: 48px;
+    font-size: 10px;
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .postActions button svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .messagesPage {
+    display: block;
+    height: auto;
+  }
+
+  .chatList {
+    display: none;
+  }
+
+  .chatWindow {
+    height: calc(100vh - 150px);
+  }
+
+  .chatBubble,
+  .applicationCard {
+    max-width: 86%;
+  }
+
+  .profileHero {
+    height: 140px;
+  }
+
+  .availableBadge {
+    top: 14px;
+    right: 14px;
+    padding: 8px 18px;
+    font-size: 13px;
+  }
+
+  .profileAvatarLarge {
+    width: 95px;
+    height: 95px;
+    font-size: 34px;
+    border-width: 4px;
+  }
+
+  .profileInfoLarge {
+    margin-top: -45px;
+  }
+
+  .profileInfoLarge h1 {
+    font-size: 22px;
+  }
+
+  .profileInfoLarge p {
+    font-size: 13px;
+  }
+
+  .skillTags span {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .scheduleDays {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .scheduleDays b {
+    font-size: 14px;
+  }
+
+  .scheduleDays span {
+    font-size: 11px;
+    padding: 8px 0;
+  }
+
+  .twoButtons {
+    gap: 10px;
+  }
+
+  .twoButtons button,
+  .dateBtn {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .submitBtn {
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  .bottomNav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 72px;
+    background: white;
+    border-top: 1px solid #ddd;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    z-index: 100;
+  }
+
+  .bottomNav button {
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    color: #777;
+    font-size: 11px;
+  }
+
+  .bottomActive {
+    color: var(--sage-dark) !important;
+    font-weight: bold;
   }
 }

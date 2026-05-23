@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import {
-  Menu,
   Search,
   Bell,
   MessageCircle,
@@ -14,10 +13,14 @@ import {
   Clock,
   X,
   ChevronRight,
+  Heart,
+  MoreHorizontal,
+  Bookmark,
+  Menu,
 } from "lucide-react";
 import "./RaketWebVersion.css";
 
-const posts = [
+const initialPosts = [
   {
     id: 1,
     user: "Richie Pelares",
@@ -26,12 +29,13 @@ const posts = [
     age: "6d ago",
     mode: "Applying",
     status: "Available",
-    description: "Gardener",
-    skill: "Gardener",
+    description: "Barber",
+    skill: "Barber",
     when: "May 15, 2026, Friday (AM)",
     payLabel: "Rate",
     pay: "₱100",
     action: "Hire",
+    comments: ["Available pa ni?", "Nice offer."],
   },
   {
     id: 2,
@@ -42,12 +46,13 @@ const posts = [
     mode: "Hiring",
     status: "Open",
     description: "Manug gunting",
-    skill: "Barber",
+    skill: "Hair stylist",
     when: "May 14, 2026, Thursday (AM)",
     payLabel: "Pay",
     pay: "₱100",
     notes: "Bring own equipments",
     action: "Apply",
+    comments: [],
   },
   {
     id: 3,
@@ -57,18 +62,44 @@ const posts = [
     age: "6d ago",
     mode: "Hiring",
     status: "Open",
-    description: "Computer expert",
-    skill: "I.T.",
+    description: "Manong gunting",
+    skill: "Barber",
     when: "May 14, 2026, Thursday (AM)",
     payLabel: "Pay",
     pay: "₱160",
     notes: "with free Puto if late",
     action: "Apply",
+    comments: ["Pwede afternoon?"],
   },
 ];
 
 const recentSearches = ["Barber", "Welder", "Vince", "Abnoy", "cooking", "Tubero"];
-const trends = ["barber", "vince", "welder", "tubero"];
+const trends = ["barber", "abnoy", "vince", "welder", "tubero"];
+
+function BottomNav({ activePage, setActivePage }) {
+  const nav = [
+    [Home, "Home"],
+    [Search, "Search"],
+    [PlusCircle, "Create"],
+    [MessageCircle, "Messages"],
+    [User, "My Profile"],
+  ];
+
+  return (
+    <nav className="bottomNav">
+      {nav.map(([Icon, label]) => (
+        <button
+          key={label}
+          onClick={() => setActivePage(label)}
+          className={activePage === label ? "bottomActive" : ""}
+        >
+          <Icon size={23} />
+          <span>{label === "My Profile" ? "Profile" : label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
 
 function Sidebar({ activePage, setActivePage }) {
   const items = [
@@ -111,10 +142,16 @@ function Sidebar({ activePage, setActivePage }) {
   );
 }
 
-function Topbar({ query, setQuery, setActivePage }) {
+function Topbar({ query, setQuery, activePage, setActivePage }) {
+  const icons = [
+    [Home, "Home"],
+    [PlusCircle, "Create"],
+    [Bell, "Notifications"],
+    [MessageCircle, "Messages"],
+  ];
+
   return (
     <header className="topbar">
-
       <div className="topSearch">
         <Search size={21} />
         <input
@@ -125,47 +162,117 @@ function Topbar({ query, setQuery, setActivePage }) {
       </div>
 
       <div className="topIcons">
-        <button onClick={() => setActivePage("Create")}><PlusCircle size={28} /></button>
-        <button onClick={() => alert("Notifications page coming soon")}><Bell size={27} /></button>
-        <button onClick={() => setActivePage("Messages")}><MessageCircle size={28} /></button>
-        <div className="miniProfile"><span>R</span><b>Richie Pelares</b></div>
+        {icons.map(([Icon, page]) => (
+          <button
+            key={page}
+            onClick={() => setActivePage(page)}
+            className={activePage === page ? "topIconActive" : ""}
+            title={page}
+          >
+            <Icon size={27} />
+          </button>
+        ))}
+        <button
+          className="miniProfile"
+          onClick={() => setActivePage("My Profile")}
+          title="My Profile"
+        >
+          <span>R</span>
+          <b>Richie Pelares</b>
+        </button>
       </div>
     </header>
   );
 }
 
-function FeedCard({ post }) {
+function Composer({ setActivePage }) {
   return (
-    <article className="feedCard">
+    <div className="composer">
+      <button className="composerAvatar" onClick={() => setActivePage("My Profile")}>R</button>
+      <button className="composerInput" onClick={() => setActivePage("Create")}>What raket do you need today?</button>
+      <button className="composerPost" onClick={() => setActivePage("Create")}><PlusCircle size={20} /> Post</button>
+    </div>
+  );
+}
+
+function FeedCard({ post, onComment, onMessage, onApplication, onProfile }) {
+  const [commentText, setCommentText] = useState("");
+  const [showComments, setShowComments] = useState(false);
+
+  function submitComment(e) {
+    e.preventDefault();
+    if (!commentText.trim()) return;
+    onComment(post.id, commentText.trim());
+    setCommentText("");
+    setShowComments(true);
+  }
+
+  return (
+    <article className="feedCard socialCard">
       <div className="postHeader">
-        <div className="postUser">
+        <button className="postUser userButton" onClick={() => onProfile(post.user)}>
           <div className="avatarSmall">{post.initials}</div>
           <div>
             <h3>{post.user}</h3>
             <p><MapPin size={15} /> {post.location} · {post.age} · {post.mode}</p>
           </div>
+        </button>
+        <div className="postHeaderRight">
+          <span className="statusPill">{post.status}</span>
+          <button className="moreBtn"><MoreHorizontal size={22} /></button>
         </div>
-        <span className="statusPill">{post.status}</span>
+      </div>
+
+      <div className="postCaption">
+        <p>{post.description}</p>
       </div>
 
       <div className="postDetails">
-        <span>Description</span><strong>{post.description}</strong>
         <span>Skills</span><strong><em>{post.skill}</em></strong>
         <span>When</span><strong>{post.when}</strong>
         <span>{post.payLabel}</span><strong className="money">{post.pay}</strong>
         {post.notes && <><span>Notes</span><strong>{post.notes}</strong></>}
       </div>
 
-      <div className="postActions">
-        <button onClick={() => alert("Opening negotiation chat...")}><MessageCircle size={20} /> Negotiate</button>
-        <button onClick={() => alert("Opening comments...")}><MessageCircle size={20} /> Comment</button>
-        <button onClick={() => alert(`${post.action} request sent!`)}><Send size={21} /> {post.action}</button>
+      <div className="socialCounts">
+        <span>{post.comments.length} comments</span>
+        <span>{post.mode}</span>
       </div>
+
+      <div className="postActions socialActions">
+        <button onClick={() => onMessage(post)}><MessageCircle size={20} /> Negotiate</button>
+        <button onClick={() => setShowComments(!showComments)}><MessageCircle size={20} /> Comment</button>
+        <button onClick={() => onApplication(post)}><Send size={21} /> {post.action}</button>
+      </div>
+
+      {showComments && (
+        <div className="commentsBox">
+          {post.comments.length === 0 ? (
+            <p className="noComment">No comments yet. Be the first one.</p>
+          ) : (
+            post.comments.map((comment, index) => (
+              <div className="commentItem" key={index}>
+                <div className="commentAvatar">R</div>
+                <p><b>User</b><br />{comment}</p>
+              </div>
+            ))
+          )}
+
+          <form className="commentForm" onSubmit={submitComment}>
+            <input
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="Write a comment..."
+            />
+            <button>Post</button>
+          </form>
+        </div>
+      )}
     </article>
   );
 }
 
-function HomePage({ query }) {
+function HomePage({ query, posts, setPosts, setActivePage, startChat, sendApplication }) {
   const [tab, setTab] = useState("Hiring");
 
   const filtered = useMemo(() => {
@@ -174,22 +281,37 @@ function HomePage({ query }) {
       const matchTab = tab === "Hiring" ? true : post.mode === tab;
       return matchQuery && matchTab;
     });
-  }, [query, tab]);
+  }, [query, tab, posts]);
+
+  function addComment(postId, comment) {
+    setPosts((prev) => prev.map((post) => post.id === postId ? { ...post, comments: [...post.comments, comment] } : post));
+  }
 
   return (
     <div className="centerFeed">
+      <Composer setActivePage={setActivePage} />
+
       <div className="feedTabs">
         {["Hiring", "Applying", "Available"].map((item) => (
           <button key={item} onClick={() => setTab(item)} className={tab === item ? "tabActive" : ""}>{item}</button>
         ))}
       </div>
 
-      {filtered.map((post) => <FeedCard key={post.id} post={post} />)}
+      {filtered.map((post) => (
+        <FeedCard
+          key={post.id}
+          post={post}
+          onComment={addComment}
+          onMessage={startChat}
+          onApplication={sendApplication}
+          onProfile={() => setActivePage("My Profile")}
+        />
+      ))}
     </div>
   );
 }
 
-function SearchPage({ query, setQuery }) {
+function SearchPage({ query, setQuery, setActivePage }) {
   return (
     <section className="searchPage">
       <div className="bigSearch">
@@ -210,12 +332,56 @@ function SearchPage({ query, setQuery }) {
 
       <div className="recentList">
         {recentSearches.map((item) => (
-          <div key={item}><Clock size={20} /> <span>{item}</span> <X size={18} /></div>
+          <button key={item} onClick={() => setQuery(item)}><Clock size={20} /> <span>{item}</span> <X size={18} /></button>
         ))}
       </div>
 
       <h3 className="sectionTitle">TRENDING SEARCHES</h3>
-      <div className="trendRow">{trends.map((item) => <span key={item}>{item}</span>)}</div>
+      <div className="trendRow">{trends.map((item) => <button key={item} onClick={() => setQuery(item)}>{item}</button>)}</div>
+    </section>
+  );
+}
+
+function MessagesPage({ messages, setActivePage }) {
+  return (
+    <section className="messagesPage">
+      <div className="chatList">
+        <h2>Messages</h2>
+        <button className="chatPerson activeChat"><span>R</span><div><b>Richie Pelares</b><small>Negotiation / Application</small></div></button>
+        <button className="chatPerson"><span>V</span><div><b>Vince Barruga</b><small>Job inquiry</small></div></button>
+      </div>
+
+      <div className="chatWindow">
+        <div className="chatHeader">
+          <button className="chatBack" onClick={() => setActivePage("Home")}>←</button>
+          <div className="avatarSmall">R</div>
+          <div><h3>Richie Pelares</h3><p>Active now</p></div>
+        </div>
+
+        <div className="chatBody">
+          {messages.length === 0 ? (
+            <p className="emptyChat">No messages yet. Click Negotiate, Apply, or Hire from a post.</p>
+          ) : messages.map((msg) => (
+            <div key={msg.id} className={msg.type === "card" ? "applicationCard" : "chatBubble sentBubble"}>
+              {msg.type === "card" ? (
+                <>
+                  <h4>{msg.title}</h4>
+                  <p><b>Post:</b> {msg.post.description}</p>
+                  <p><b>Skill:</b> {msg.post.skill}</p>
+                  <p><b>Schedule:</b> {msg.post.when}</p>
+                  <p><b>{msg.post.payLabel}:</b> {msg.post.pay}</p>
+                  <button>View Details</button>
+                </>
+              ) : msg.text}
+            </div>
+          ))}
+        </div>
+
+        <form className="chatInput" onSubmit={(e) => e.preventDefault()}>
+          <input placeholder="Type a message..." />
+          <button><Send size={20} /></button>
+        </form>
+      </div>
     </section>
   );
 }
@@ -253,13 +419,6 @@ function ProfilePanel() {
         <div className="panelTitle"><h3>Trending Searches</h3><ChevronRight size={22} /></div>
         <div className="trendRow">{trends.map((item) => <span key={item}>{item}</span>)}</div>
       </section>
-
-      <section className="panelBox">
-        <div className="panelTitle"><h3>Activity Feed</h3></div>
-        <div className="activityItem"><div>R</div><p><b>Richie Pelares</b> is applying for <span>Barber</span><small>6d ago</small></p></div>
-        <div className="activityItem"><div>V</div><p><b>Vince Barruga</b> posted a new job<small>6d ago</small></p></div>
-        <div className="activityLink">View all activity <ChevronRight size={18} /></div>
-      </section>
     </aside>
   );
 }
@@ -291,7 +450,7 @@ function CreatePage() {
     <section className="createPage">
       <h1>Create Form</h1>
       <div className="createTabs"><button className="tabActive">Hire</button><button>Apply</button></div>
-      <form className="formCard" onSubmit={(e) => { e.preventDefault(); alert("Post Job clicked!"); }}>
+      <form className="formCard" onSubmit={(e) => { e.preventDefault(); alert("Post created!"); }}>
         <label>DESCRIPTION</label>
         <textarea placeholder="Describe what you need..."></textarea>
         <label>SKILLS NEEDED</label>
@@ -312,28 +471,48 @@ function CreatePage() {
 }
 
 function PlaceholderPage({ title }) {
-  return <section className="placeholderPage"><h1>{title}</h1><p></p></section>;
+  return <section className="placeholderPage"><h1>{title}</h1></section>;
 }
 
 export default function RaketWebVersion() {
   const [activePage, setActivePage] = useState("Home");
   const [query, setQuery] = useState("");
+  const [posts, setPosts] = useState(initialPosts);
+  const [messages, setMessages] = useState([]);
+
+  function startChat(post) {
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now(), type: "text", text: `Hi, I want to negotiate about: ${post.description}.` },
+    ]);
+    setActivePage("Messages");
+  }
+
+  function sendApplication(post) {
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now(), type: "card", title: `${post.action} Request Card`, post },
+    ]);
+    setActivePage("Messages");
+  }
 
   let content;
-  if (activePage === "Home") content = <HomePage query={query} />;
-  else if (activePage === "Search") content = <SearchPage query={query} setQuery={setQuery} />;
+  if (activePage === "Home") content = <HomePage query={query} posts={posts} setPosts={setPosts} setActivePage={setActivePage} startChat={startChat} sendApplication={sendApplication} />;
+  else if (activePage === "Search") content = <SearchPage query={query} setQuery={setQuery} setActivePage={setActivePage} />;
+  else if (activePage === "Messages") content = <MessagesPage messages={messages} setActivePage={setActivePage} />;
   else if (activePage === "My Profile") content = <ProfilePage />;
   else if (activePage === "Create") content = <CreatePage />;
   else content = <PlaceholderPage title={activePage} />;
 
   return (
     <div className="raketPage">
-      <Topbar query={query} setQuery={setQuery} setActivePage={setActivePage} />
+      <Topbar query={query} setQuery={setQuery} activePage={activePage} setActivePage={setActivePage} />
       <div className="layout">
         <Sidebar activePage={activePage} setActivePage={setActivePage} />
         <main className="mainArea">{content}</main>
         {activePage === "Home" && <ProfilePanel />}
       </div>
+      <BottomNav activePage={activePage} setActivePage={setActivePage} />
     </div>
   );
 }
