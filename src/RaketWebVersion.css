@@ -740,27 +740,79 @@ button {
     justify-content: flex-start;
   }
 
-  .footer {
-    margin-left: 260px;
-    width: calc(100% - 260px);
-    padding: 24px;
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-    background: transparent;
-  }
-
-  .footer span {
-    display: block;
-    margin-top: 6px;
-    color: var(--sage-dark);
-    font-weight: bold;
-  }
-
   @media (max-width: 850px) {
-    .footer {
-      margin-left: 0;
-      width: 100%;
+    .topbar {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      height: auto;
+      padding: 14px;
+      gap: 14px;
     }
-  };
-};
+
+    .topSearch {
+      width: 100%;
+      order: 2;
+    }
+
+    .topIcons {
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .miniProfile b {
+      display: none;
+    }
+
+    .layout {
+      display: block;
+    }
+
+    .sidebar,
+    .rightPanel {
+      display: none;
+    }
+
+    .mainArea {
+      padding: 14px;
+    }
+
+    .centerFeed,
+    .searchPage,
+    .createPage,
+    .profilePage,
+    .placeholderPage {
+      max-width: 100%;
+      width: 100%;
+      padding: 16px;
+    }
+
+    .postHeader,
+    .postUser {
+      align-items: flex-start;
+    }
+
+    .postHeader {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .postDetails {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .postActions {
+      grid-template-columns: 1fr;
+    }
+
+    .postActions button {
+      border-right: none;
+      border-bottom: 1px solid #eee;
+    }
+
+    .scheduleDays {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
