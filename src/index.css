@@ -11,3 +11,72 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.siteFooter {
+  background: #f7f7f5;
+  border-top: 1px solid #d9d9d9;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.siteFooter h3 {
+  margin: 0;
+  color: #8b9b84;
+  font-size: 30px;
+  font-style: italic;
+}
+
+.footerDescription {
+  max-width: 700px;
+  margin: 18px auto;
+  line-height: 1.7;
+  color: #777;
+  font-size: 15px;
+}
+
+.footerMembers {
+  margin-top: 28px;
+}
+
+.footerMembers strong {
+  display: block;
+  color: #777;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.footerMembers span {
+  display: block;
+  color: #777;
+  margin: 5px 0;
+}
+
+.footerRights {
+  margin-top: 30px;
+  color: #888;
+  font-size: 13px;
+}
+
+.membersLabel {
+  margin-top: 18px;
+  color: #777;
+  font-weight: bold;
+}
+
+.membersGrid {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.membersGrid span,
+.lastMember {
+  color: #777;
+}
+
+.lastMember {
+  display: block;
+  margin-top: 10px;
+}
